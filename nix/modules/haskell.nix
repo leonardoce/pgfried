@@ -4,6 +4,21 @@
     inputs.haskell-flake.flakeModule
   ];
   perSystem = { self', lib, config, pkgs, ... }: {
+    packages.dockerImage = pkgs.dockerTools.buildImage {
+      name = "pgfried";
+      created = "now";
+      copyToRoot = pkgs.buildEnv {
+        paths = with pkgs; [
+          self'.packages.default
+        ];
+        name = "pgfried";
+        pathsToLink = [ "/bin" ];
+      };
+      config = {
+        Cmd = [ "${pkgs.lib.getExe self'.packages.default}" ];
+      };
+    };
+
     # Our only Haskell project. You can have multiple projects, but this template
     # has only one.
     # See https://github.com/srid/haskell-flake/blob/master/example/flake.nix
