@@ -17,3 +17,7 @@ fmt:
 # Run ghcid -- auto-recompile and run `main` function
 run:
     ghcid -c "cabal repl exe:pgfried" --warnings -T :main
+
+# Create a docker image
+dockerImage:
+    nix build  .#dockerImage --print-out-paths
