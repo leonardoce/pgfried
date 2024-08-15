@@ -19,6 +19,7 @@ connectionTest = do
   putStrLn "Creating a connection to PG"
   _ <- D.connectPostgreSQL "connect_timeout=2"
   putStrLn "Waiting for a bit"
+  hFlush stdout
   threadDelay 1000000
 
 connectionCycle :: IO ()
@@ -29,4 +30,5 @@ connectionCycle = do
       putStrLn $ "error " ++ show err
       threadDelay 1000000
     Right _ -> putStrLn "Everything fine"
+  hFlush stdout
   connectionCycle

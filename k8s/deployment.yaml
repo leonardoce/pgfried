@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: pgfried
+  name: pgfried
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgfried
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: pgfried
+    spec:
+      containers:
+      - image: pgfried:3yfibpl5xi77yyd0200r6f3g77l8wndb
+        name: pgfried
+        resources: {}
+        env:
+        - name: PGHOST
+          value: "cluster-example-rw"
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: cluster-example-app
+              key: user
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cluster-example-app
+              key: password
+status: {}
